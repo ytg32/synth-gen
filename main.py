@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 from sdv.metadata import SingleTableMetadata
 from sdv.lite import SingleTablePreset
+from functionforDownloadButtons import download_button
 
 def _max_width_():
     max_width_str = f"max-width: 1800px;"
@@ -56,26 +57,8 @@ if uploaded_file is not None:
     metadata.detect_from_dataframe(data=df)
     synthesizer = SingleTablePreset(metadata, name='FAST_ML')
     synthesizer.fit(df)
-    synthetic_data = synthesizer.sample(num_rows=10)
-    print(synthetic_data.head())
+    synthetic_data = synthesizer.sample(num_rows=100)
 
-
-if uploaded_file is not None:
-    df = pd.read_csv(uploaded_file)
-    uploaded_file.seek(0)
-    table_ = df.to_dict()
-    new_data = {}
-    # loop through each key in the original dictionary
-    for key in table_:
-        # get the values from the inner dictionary and convert them to a list
-        values = list(table_[key].values())
-        # add the values to the new dictionary with the same key
-        values = [str(value) if not isinstance(value, str) else value for value in values]
-        new_data[key] = values
-
-
-    file_container = st.expander("Check your uploaded .csv")
-    file_container.write(df)
 
 
 else:
@@ -86,3 +69,14 @@ else:
     )
 
     st.stop()
+
+
+c29, c30, c31 = st.columns([1, 1, 2])
+
+with c29:
+
+    CSVButton = download_button(
+        synthetic_data,
+        "FlaggedFile.csv",
+        "Download to CSV",
+    )
