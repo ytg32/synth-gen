@@ -55,7 +55,7 @@ if uploaded_file is not None:
     metadata = SingleTableMetadata()
     metadata.detect_from_dataframe(data=df)
     synthesizer = SingleTablePreset(metadata, name='FAST_ML')
-    synthesizer.fit(data)
+    synthesizer.fit(df)
     synthetic_data = synthesizer.sample(num_rows=10)
     print(synthetic_data.head())
 
