@@ -53,7 +53,7 @@ if uploaded_file is not None:
         new_data[key] = values
     
     metadata = SingleTableMetadata()
-    metadata.detect_from_csv(df)
+    metadata.detect_from_dataframe(data=df)
     synthesizer = SingleTablePreset(metadata, name='FAST_ML')
     synthesizer.fit(data)
     synthetic_data = synthesizer.sample(num_rows=10)
